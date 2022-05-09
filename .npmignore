@@ -1,0 +1,15 @@
+.github
+coverage
+test
+# source
+lib
+svg
+index.ts
+package-lock.json
+.eslintrc.js
+.gitignore
+tsconfig.json
+tsconfig.build.json
+.prettierrc
+.commitlintrc.json
+*.log
