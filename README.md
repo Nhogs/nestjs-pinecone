@@ -1,9 +1,9 @@
-<p align="center">
-  <a href="https://github.com/Nhogs"><img alt="nhogs logo" width="64" src="https://nhogs.com/nhogs_192.png"></a>
-</p>
+[![nhogs logo](https://nhogs.com/nhogs_64.png)](https://github.com/Nhogs)
 
 # @nhogs/nestjs-pinecone
-[Pinecone.io](https://www.pinecone.io/) vector database module for nestjs
+
+[![pinecone logo](pinecone-logo.svg)Pinecone.io](https://www.pinecone.io/)
+vector database module for nestjs
 
 [![npm peer dependency version NestJS)](https://img.shields.io/npm/dependency-version/@nhogs/nestjs-pinecone/peer/@nestjs/core?label=Nestjs&logo=nestjs&logoColor=e0234e)](https://github.com/nestjs/nest)
 
@@ -13,4 +13,21 @@
 
 ```bash
 $ npm i --save @nhogs/nestjs-pinecone
+```
+
+## Usage
+
+See [Pincone quickstart guide](https://www.pinecone.io/docs/quickstart/) for config details
+
+```javascript
+@Module({
+  imports: [
+    PineconeModule.register({
+      environment: 'YOUR_ENVIRONMENT', // Default is 'us-west1-gcp',
+      project: 'YOUR_PROJECT', // Project id
+      apiKey: 'YOUR_API_KEY', // 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    }),
+  ],
+})
+export class AppModule {}
 ```
