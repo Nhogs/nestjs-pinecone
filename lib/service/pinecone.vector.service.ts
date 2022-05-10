@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { map, Observable } from 'rxjs';
 import {
+  Delete,
+  DeleteResult,
   Fetch,
   FetchResult,
   IndexStatsResult,
@@ -9,6 +11,10 @@ import {
   PineconeConfig,
   Query,
   QueryResults,
+  Update,
+  UpdateResult,
+  Upsert,
+  UpsertResult,
 } from '../interface';
 
 @Injectable()
@@ -53,14 +59,20 @@ export class PineconeVectorService {
     );
   }
 
-  // TODO...
-  // delete(): Observable<IndexStat> {
-  //   return this.httpService.get<IndexStat>(`/vectors/delete`).pipe(
-  //     map((axiosResponse) => {
-  //       return axiosResponse.data;
-  //     }),
-  //   );
-  // }
+  /**
+   * The Delete operation deletes vectors, by id, from a single namespace. You can delete items by their id, from a single namespace.
+   * @param del
+   * @param index
+   */
+  delete(del: Delete, index?: string): Observable<DeleteResult> {
+    const url = this.indexUrl('/vectors/delete', index);
+
+    return this.httpService.post<DeleteResult>(url, del).pipe(
+      map((axiosResponse) => {
+        return axiosResponse.data;
+      }),
+    );
+  }
 
   /**
    * The Fetch operation looks up and returns vectors, by id, from a single namespace. The returned vectors include the vector data and/or metadata.
@@ -82,20 +94,31 @@ export class PineconeVectorService {
     );
   }
 
-  // TODO...
-  // update(): Observable<IndexStat> {
-  //   return this.httpService.get<IndexStat>(`/describe_index_stats`).pipe(
-  //     map((axiosResponse) => {
-  //       return axiosResponse.data;
-  //     }),
-  //   );
-  // }
-  //
-  // upsert(): Observable<IndexStat> {
-  //   return this.httpService.get<IndexStat>(`/describe_index_stats`).pipe(
-  //     map((axiosResponse) => {
-  //       return axiosResponse.data;
-  //     }),
-  //   );
-  // }
+  /**
+   * The Update operation updates vector in a namespace. If a value is included, it will overwrite the previous value. If a set_metadata is included, the values of the fields specified in it will be added or overwrite the previous value.
+   * @param update
+   * @param index
+   */
+  update(update: Update, index?: string): Observable<UpdateResult> {
+    const url = this.indexUrl('/vectors/update', index);
+    return this.httpService.post<UpdateResult>(url, update).pipe(
+      map((axiosResponse) => {
+        return axiosResponse.data;
+      }),
+    );
+  }
+
+  /**
+   * The Upsert operation writes vectors into a namespace. If a new value is upserted for an existing vector id, it will overwrite the previous value.
+   * @param upsert
+   * @param index
+   */
+  upsert(upsert: Upsert, index?: string): Observable<UpsertResult> {
+    const url = this.indexUrl('/vectors/upsert', index);
+    return this.httpService.post<UpsertResult>(url, upsert).pipe(
+      map((axiosResponse) => {
+        return axiosResponse.data;
+      }),
+    );
+  }
 }
