@@ -1,4 +1,4 @@
-export interface IndexDescription {
+export interface IndexDescriptionResult {
   database: {
     dimension: number;
     index_config: {

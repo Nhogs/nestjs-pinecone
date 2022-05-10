@@ -1,27 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { map, Observable } from 'rxjs';
-import { IndexDescription } from '../interface';
+import {
+  IndexDescriptionResult,
+  PINECONE_CONFIG,
+  PineconeConfig,
+  WhoAmIResult,
+} from '../interface';
 
 @Injectable()
 export class PineconeIndexService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    @Inject(PINECONE_CONFIG) private readonly config: PineconeConfig,
+    private httpService: HttpService,
+  ) {}
 
-  listIndexes(): Observable<string[]> {
-    return this.httpService
-      .get<string[]>(`https://controller.us-west1-gcp.pinecone.io/databases`)
-      .pipe(
-        map((axiosResponse) => {
-          return axiosResponse.data;
-        }),
-      );
+  private url(target: string) {
+    return `https://controller.${this.config.environment}.pinecone.io${target}`;
   }
 
-  describeIndex(indexName: string): Observable<IndexDescription> {
+  whoAmI(): Observable<WhoAmIResult> {
+    return this.httpService.get<WhoAmIResult>(this.url('/actions/whoami')).pipe(
+      map((axiosResponse) => {
+        return axiosResponse.data;
+      }),
+    );
+  }
+
+  listIndexes(): Observable<string[]> {
+    return this.httpService.get<string[]>(this.url(`/databases`)).pipe(
+      map((axiosResponse) => {
+        return axiosResponse.data;
+      }),
+    );
+  }
+
+  describeIndex(indexName: string): Observable<IndexDescriptionResult> {
     return this.httpService
-      .get<IndexDescription>(
-        `https://controller.us-west1-gcp.pinecone.io/databases/${indexName}`,
-      )
+      .get<IndexDescriptionResult>(this.url(`/databases/${indexName}`))
       .pipe(
         map((axiosResponse) => {
           return axiosResponse.data;

@@ -1,4 +1,4 @@
-export interface IndexStat {
+export interface IndexStatsResult {
   namespaces: {
     [key: string]: { vectorCount: number };
   };
