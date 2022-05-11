@@ -61,7 +61,10 @@ export class AsyncAppModule {}
 ```
 
 ## Index Operation Service
+
 ```typescript
+@Injectable()
+export class PineconeIndexService {
   /**
    * Check environment and make sure your Pinecone API key works.
    */
@@ -77,49 +80,53 @@ export class AsyncAppModule {}
    * @param indexName or default index set in config
    */
   describeIndex(indexName?: string): Observable<IndexDescriptionResult> {}
+}
 ```
 
 ## Vector Operation Service
 
 ```typescript
+@Injectable()
+export class PineconeVectorService {
   /**
    * The DescribeIndexStats operation returns statistics about the index's contents.
    * @param index index name
    */
-  describeIndexStats(index?: string): Observable<IndexStatsResult> {...}
+  describeIndexStats(index?: string): Observable<IndexStatsResult> {}
 
   /**
    * The Query operation searches a namespace, using one or more query vectors. It retrieves the ids of the most similar items in a namespace, along with their similarity scores.
    * @param query
    * @param index
    */
-  query(query: Query, index?: string): Observable<QueryResults> {...}
+  query(query: Query, index?: string): Observable<QueryResults> {}
 
   /**
    * The Delete operation deletes vectors, by id, from a single namespace. You can delete items by their id, from a single namespace.
    * @param del
    * @param index
    */
-  delete(del: Delete, index?: string): Observable<DeleteResult> {...}
+  delete(del: Delete, index?: string): Observable<DeleteResult> {}
 
   /**
    * The Fetch operation looks up and returns vectors, by id, from a single namespace. The returned vectors include the vector data and/or metadata.
    * @param fetch
    * @param index
    */
-  fetch(fetch: Fetch, index?: string): Observable<FetchResult> {...}
+  fetch(fetch: Fetch, index?: string): Observable<FetchResult> {}
 
   /**
    * The Update operation updates vector in a namespace. If a value is included, it will overwrite the previous value. If a set_metadata is included, the values of the fields specified in it will be added or overwrite the previous value.
    * @param update
    * @param index
    */
-  update(update: Update, index?: string): Observable<UpdateResult> {...}
+  update(update: Update, index?: string): Observable<UpdateResult> {}
 
   /**
    * The Upsert operation writes vectors into a namespace. If a new value is upserted for an existing vector id, it will overwrite the previous value.
    * @param upsert
    * @param index
    */
-  upsert(upsert: Upsert, index?: string): Observable<UpsertResult> {...}
+  upsert(upsert: Upsert, index?: string): Observable<UpsertResult> {}
+}
 ```
