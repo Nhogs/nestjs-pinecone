@@ -22,9 +22,22 @@ export class PineconeVectorService {
   constructor(
     @Inject(PINECONE_CONFIG) private readonly config: PineconeConfig,
     private readonly httpService: HttpService,
-  ) {}
+  ) {
+    this._conf = {
+      headers: {
+        'Api-Key': this.config.apiKey,
+        'Content-Type': 'application/json',
+      },
+    };
+  }
 
-  private indexUrl(target: string, index?: string) {
+  /**
+   * HttpService config
+   * @private
+   */
+  private _conf;
+
+  private url(target: string, index?: string) {
     return `https://${index ? index : this.config.index}-${
       this.config.project
     }.svc.${this.config.environment}.pinecone.io${target}`;
@@ -35,13 +48,16 @@ export class PineconeVectorService {
    * @param index index name
    */
   describeIndexStats(index?: string): Observable<IndexStatsResult> {
-    const url = this.indexUrl('/describe_index_stats', index);
-
-    return this.httpService.get<IndexStatsResult>(url).pipe(
-      map((axiosResponse) => {
-        return axiosResponse.data;
-      }),
-    );
+    return this.httpService
+      .get<IndexStatsResult>(
+        this.url('/describe_index_stats', index),
+        this._conf,
+      )
+      .pipe(
+        map((axiosResponse) => {
+          return axiosResponse.data;
+        }),
+      );
   }
 
   /**
@@ -50,13 +66,13 @@ export class PineconeVectorService {
    * @param index
    */
   query(query: Query, index?: string): Observable<QueryResults> {
-    const url = this.indexUrl('/query', index);
-
-    return this.httpService.post<QueryResults>(url, query).pipe(
-      map((axiosResponse) => {
-        return axiosResponse.data;
-      }),
-    );
+    return this.httpService
+      .post<QueryResults>(this.url('/query', index), query, this._conf)
+      .pipe(
+        map((axiosResponse) => {
+          return axiosResponse.data;
+        }),
+      );
   }
 
   /**
@@ -65,13 +81,13 @@ export class PineconeVectorService {
    * @param index
    */
   delete(del: Delete, index?: string): Observable<DeleteResult> {
-    const url = this.indexUrl('/vectors/delete', index);
-
-    return this.httpService.post<DeleteResult>(url, del).pipe(
-      map((axiosResponse) => {
-        return axiosResponse.data;
-      }),
-    );
+    return this.httpService
+      .post<DeleteResult>(this.url('/vectors/delete', index), del, this._conf)
+      .pipe(
+        map((axiosResponse) => {
+          return axiosResponse.data;
+        }),
+      );
   }
 
   /**
@@ -85,13 +101,13 @@ export class PineconeVectorService {
       fetch.ids.map((id) => 'ids=' + encodeURI(id)).join('&') +
       (fetch.namespace ? '&namespace=' + fetch.namespace : '');
 
-    const url = this.indexUrl(`/vectors/fetch${params}`, index);
-
-    return this.httpService.get<FetchResult>(url).pipe(
-      map((axiosResponse) => {
-        return axiosResponse.data;
-      }),
-    );
+    return this.httpService
+      .get<FetchResult>(this.url(`/vectors/fetch${params}`, index), this._conf)
+      .pipe(
+        map((axiosResponse) => {
+          return axiosResponse.data;
+        }),
+      );
   }
 
   /**
@@ -100,12 +116,17 @@ export class PineconeVectorService {
    * @param index
    */
   update(update: Update, index?: string): Observable<UpdateResult> {
-    const url = this.indexUrl('/vectors/update', index);
-    return this.httpService.post<UpdateResult>(url, update).pipe(
-      map((axiosResponse) => {
-        return axiosResponse.data;
-      }),
-    );
+    return this.httpService
+      .post<UpdateResult>(
+        this.url('/vectors/update', index),
+        update,
+        this._conf,
+      )
+      .pipe(
+        map((axiosResponse) => {
+          return axiosResponse.data;
+        }),
+      );
   }
 
   /**
@@ -114,11 +135,16 @@ export class PineconeVectorService {
    * @param index
    */
   upsert(upsert: Upsert, index?: string): Observable<UpsertResult> {
-    const url = this.indexUrl('/vectors/upsert', index);
-    return this.httpService.post<UpsertResult>(url, upsert).pipe(
-      map((axiosResponse) => {
-        return axiosResponse.data;
-      }),
-    );
+    return this.httpService
+      .post<UpsertResult>(
+        this.url('/vectors/upsert', index),
+        upsert,
+        this._conf,
+      )
+      .pipe(
+        map((axiosResponse) => {
+          return axiosResponse.data;
+        }),
+      );
   }
 }

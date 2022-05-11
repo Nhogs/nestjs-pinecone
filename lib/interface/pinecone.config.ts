@@ -7,16 +7,9 @@ export interface PineconeConfig {
   index?: string;
 }
 
-// TODO for async config
-// export interface PineconeConfigFactory {
-//   createPineconeConfig(): Promise<PineconeConfig> | PineconeConfig;
-// }
-//
-// export interface PineconeAsyncConfig
-//   extends Pick<ModuleMetadata, 'imports'> {
-//   useFactory?: (
-//       ...args: any[]
-//   ) => Promise<PineconeConfig> | PineconeConfig;
-//   inject?: any[];
-//   extraProviders?: Provider[];
-// }
+export interface PineconeModuleOptions {
+  imports: any;
+  inject: any;
+  useFactory: any;
+  extraProviders?: any;
+}
