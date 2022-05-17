@@ -1,4 +1,4 @@
-<img src="https://nhogs.com/nhogs_64.png" style="float: right;" alt="nhogs-logo" title="NHOGS Interactive">
+<img src="https://nhogs.com/nhogs_64.png" align="right" alt="nhogs-logo" title="NHOGS Interactive">
 
 # @nhogs/nestjs-pinecone
 
