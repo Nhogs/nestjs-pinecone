@@ -1,4 +1,4 @@
-[![nhogs logo](https://nhogs.com/nhogs_64.png)](https://github.com/Nhogs)
+<img src="https://nhogs.com/nhogs_64.png" style="float: right;" alt="nhogs-logo" title="NHOGS Interactive">
 
 # @nhogs/nestjs-pinecone
 
