@@ -1,11 +1,11 @@
-interface VectorResult {
+export interface VectorResult {
   id: string;
   score: number;
   values: number[];
   metadata: object;
 }
 
-interface QueryResult {
+export interface QueryResult {
   matches: VectorResult[];
   namespace: string;
 }

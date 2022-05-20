@@ -1,8 +1,8 @@
-interface QueryFilter {
+export interface QueryFilter {
   [key: string]: object;
 }
 
-interface QueryVector {
+export interface QueryVector {
   values: number[];
   topK?: number;
   namespace?: string;
