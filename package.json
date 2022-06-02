@@ -6,6 +6,7 @@
   },
   "description": "Pinecone.io vector database module for nestjs",
   "author": "Frederic Ciminera",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nhogs/nestjs-pinecone.git"
